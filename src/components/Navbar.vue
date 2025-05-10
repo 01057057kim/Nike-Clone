@@ -1,10 +1,32 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue';
+import Help from './NavComponets/Help.vue';
+import NewAndFeatured from './NavComponets/NewAndFeatured.vue';
+import Men from './NavComponets/Men.vue';
+import Women from './NavComponets/Women.vue';
+import Kids from './NavComponets/Kids.vue';
+const activeDropdown = ref(null);
+
+const showDropdown = (menu) => {
+    activeDropdown.value = menu;
+};
+
+const hideDropdown = () => {
+
+    setTimeout(() => {
+        const isOverDropdown = document.querySelector('.dropdown-menu:hover');
+        if (!isOverDropdown) {
+            activeDropdown.value = null;
+        }
+    }, 50);
+};
+</script>
 
 <template>
     <div class="w-full">
-        <div class="bg-[#f5f5f5] w-full">
-            <div class="max-w-[1920px] px-10 mx-auto flex items-center justify-between h-[36px]">
-                <div class="flex items-center gap-8 px-2">
+        <div class="bg-[#f5f5f5] w-full hidden navbar-shadow">
+            <div class="max-w-[1920px] px-8 mx-auto flex items-center justify-between h-[36px]">
+                <div class="flex items-center gap-6 px-2">
                     <a href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             viewBox="5.003 13.06 239.999 223.884">
                             <path
@@ -17,60 +39,155 @@
                             <path d="M74.7 47L31.9 94h36.7l42.8-47L68.6 0H31.9z" />
                         </svg></a>
                 </div>
-                <ul class="flex items-center space-x-1 text-[0.8rem] font-medium tracking-normal gap-2">
-                    <li class=""><a href="">Find a Store</a></li>
+                <ul class="flex items-center space-x-1 text-[0.7rem] font-semibold tracking-normal gap-2">
+                    <li class="hover:opacity-50"><a href="">Find a Store</a></li>
                     <li>|</li>
-                    <li><a href="">Help</a></li>
+                    <div>
+                        <li class="hover:opacity-50 " @mouseenter="showDropdown('help')" @mouseleave="hideDropdown">Help
+                        </li>
+                        <div v-if="activeDropdown === 'help'" @mouseenter="showDropdown('help')"
+                            @mouseleave="hideDropdown"
+                            class="dropdown-menu relative translate-y-2 translate-x-[-10rem] z-100">
+                            <Help />
+                        </div>
+                    </div>
+
                     <li>|</li>
-                    <li><a href="">Join Us</a></li>
+                    <li class="hover:opacity-50"><a href="">Join Us</a></li>
                     <li>|</li>
-                    <li><a href="">Sign In</a></li>
+                    <li class="hover:opacity-50"><a href="">Sign In</a></li>
                 </ul>
             </div>
         </div>
 
-        <nav class="bg-white shadow-md w-full">
-            <div class="max-w-[1920px] px-10 mx-auto h-[60px] flex">
-                <svg xmlns="http://www.w3.org/2000/svg" width="59" height="59" viewBox="135.5 361.38 1000 356.39">
-                    <path
-                        d="M245.8075 717.62406c-29.79588-1.1837-54.1734-9.3368-73.23459-24.4796-3.63775-2.8928-12.30611-11.5663-15.21427-15.2245-7.72958-9.7193-12.98467-19.1785-16.48977-29.6734-10.7857-32.3061-5.23469-74.6989 15.87753-121.2243 18.0765-39.8316 45.96932-79.3366 94.63252-134.0508 7.16836-8.0511 28.51526-31.5969 28.65302-31.5969.051 0-1.11225 2.0153-2.57652 4.4694-12.65304 21.1938-23.47957 46.158-29.37751 67.7703-9.47448 34.6785-8.33163 64.4387 3.34693 87.5151 8.05611 15.898 21.86731 29.6684 37.3979 37.2806 27.18874 13.3214 66.9948 14.4235 115.60699 3.2245 3.34694-.7755 169.19363-44.801 368.55048-97.8366 199.35686-53.0408 362.49439-96.4029 362.51989-96.3672.056.046-463.16259 198.2599-703.62654 301.0914-38.08158 16.2806-48.26521 20.3928-66.16827 26.6785-45.76525 16.0714-86.76008 23.7398-119.89779 22.4235z" />
-                </svg>
-                <div class="flex-1 flex justify-center items-center translate-x-20">
-                    <ul class="flex items-center justify-center gap-4 text-[1rem] font-medium tracking-normal">
-                        <li><a href="">New and Featured</a></li>
-                        <li><a href="">Men</a></li>
-                        <li><a href="">Women</a></li>
-                        <li><a href="">Kids</a></li>
+        <nav class="bg-white shadow-md w-full"> <!-- Remove shadow-->
+            <div class="container max-w-[1920px] px-10 mx-auto h-[60px] flex">
+                <a href="" class="cursor-pointer"><svg class="" xmlns="http://www.w3.org/2000/svg" width="59"
+                        height="59" viewBox="135.5 361.38 1000 356.39">
+                        <path
+                            d="M245.8075 717.62406c-29.79588-1.1837-54.1734-9.3368-73.23459-24.4796-3.63775-2.8928-12.30611-11.5663-15.21427-15.2245-7.72958-9.7193-12.98467-19.1785-16.48977-29.6734-10.7857-32.3061-5.23469-74.6989 15.87753-121.2243 18.0765-39.8316 45.96932-79.3366 94.63252-134.0508 7.16836-8.0511 28.51526-31.5969 28.65302-31.5969.051 0-1.11225 2.0153-2.57652 4.4694-12.65304 21.1938-23.47957 46.158-29.37751 67.7703-9.47448 34.6785-8.33163 64.4387 3.34693 87.5151 8.05611 15.898 21.86731 29.6684 37.3979 37.2806 27.18874 13.3214 66.9948 14.4235 115.60699 3.2245 3.34694-.7755 169.19363-44.801 368.55048-97.8366 199.35686-53.0408 362.49439-96.4029 362.51989-96.3672.056.046-463.16259 198.2599-703.62654 301.0914-38.08158 16.2806-48.26521 20.3928-66.16827 26.6785-45.76525 16.0714-86.76008 23.7398-119.89779 22.4235z" />
+                    </svg></a>
+                <div class="flex-1 flex justify-center items-center translate-x-5 lg:translate-x-20 z-[5]">
+                    <ul class=" items-center justify-center gap-4 text-[1rem] font-medium tracking-normal hidden">
+                        <li class="nav-item" @mouseenter="showDropdown('newAndFeatured')" @mouseleave="hideDropdown">
+                            New and Featured</li>
+                        <li class="nav-item" @mouseenter="showDropdown('men')" @mouseleave="hideDropdown">Men</li>
+                        <li class="nav-item" @mouseenter="showDropdown('women')" @mouseleave="hideDropdown">Women
+                        </li>
+                        <li class="nav-item" @mouseenter="showDropdown('kids')" @mouseleave="hideDropdown">Kids
+                        </li>
                     </ul>
                 </div>
-                <div class="flex items-center justify-center gap-4">
-                    <div class="flex items-center bg-[#F5F5F5] hover:bg-[#E5E5E5] rounded-full h-[36px]">
+
+                <div class="flex items-center justify-center gap-2 lg:gap-3 z-10 ">
+                    <div class="flex items-center bg-[#FFFFFF] lg:bg-[#F5F5F5] hover:bg-[#E5E5E5] rounded-full group">
                         <button type="button"
-                            class="bg-[#F5F5F5] hover:bg-[#CACACB] p-1 rounded-full flex items-center justify-center"><svg
+                            class="bg-[#FFFFFF] lg:bg-[#F5F5F5] hover:bg-[#CACACB] p-1 rounded-full flex items-center justify-center"><svg
                                 aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
                                 height="24px" fill="none">
                                 <path stroke="currentColor" stroke-width="1.5"
                                     d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853">
                                 </path>
                             </svg></button>
-                        <input type="text" class="bg-[#F5F5F5] hover:bg-[#E5E5E5] rounded-r-full w-[130px] pl-1" placeholder="Search">
+                        <input type="text"
+                            class="bg-[#F5F5F5] hidden lg:block group-hover:bg-[#E5E5E5] rounded-r-full w-[130px]"
+                            placeholder="Search">
                     </div>
-                    <a href="" class="hover:bg-[#CACACB] rounded-full p-1"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                            height="24px" fill="none">
+                    <a href="" class="hover:bg-[#CACACB] rounded-full p-1 hidden love"><svg aria-hidden="true" focusable="false"
+                            viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none">
                             <path stroke="currentColor" stroke-width="1.5"
                                 d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451">
                             </path>
                         </svg></a>
-                    <a href="" class="hover:bg-[#CACACB] rounded-full p-1"><svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
+                    <a href="" class="hover:bg-[#CACACB] rounded-full p-1 block person">
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
                             height="24px" fill="none">
+                            <path stroke="currentColor" stroke-width="1.5"
+                                d="M3.75 21v-3a3.75 3.75 0 013.75-3.75h9A3.75 3.75 0 0120.25 18v3M12 3.75a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="" class="hover:bg-[#CACACB] rounded-full p-1"><svg aria-hidden="true" focusable="false"
+                            viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none">
                             <path stroke="currentColor" stroke-width="1.5"
                                 d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5">
                             </path>
                         </svg></a>
+                    <button class="ham block">
+                        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
+                            height="24px" fill="none">
+                            <path stroke="currentColor" stroke-width="1.5" d="M21 5.25H3M21 12H3m18 6.75H3"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </nav>
     </div>
+    <div class="relative">
+        <div v-if="activeDropdown === 'newAndFeatured'" @mouseenter="showDropdown('newAndFeatured')"
+            @mouseleave="hideDropdown" class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
+            <NewAndFeatured />
+        </div>
+
+        <div v-if="activeDropdown === 'men'" @mouseenter="showDropdown('men')" @mouseleave="hideDropdown"
+            class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
+            <Men />
+        </div>
+
+        <div v-if="activeDropdown === 'women'" @mouseenter="showDropdown('women')" @mouseleave="hideDropdown"
+            class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
+            <Women />
+        </div>
+
+        <div v-if="activeDropdown === 'kids'" @mouseenter="showDropdown('kids')" @mouseleave="hideDropdown"
+            class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
+            <Kids />
+        </div>
+    </div>
+
+    <div>
+
+    </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.nav-item {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    background-color: black;
+}
+
+.nav-item:hover::after {
+    width: 100%;
+}
+
+@media (min-width: 960px) {
+    ul {
+        display: flex;
+    }
+
+    .navbar-shadow {
+        display: block;
+    }
+
+    .ham {
+        display: none;
+    }
+
+    .love {
+        display: block;
+    }
+    .person {
+        display: none;
+    }
+}
+</style>
