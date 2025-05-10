@@ -5,6 +5,7 @@ import NewAndFeatured from './NavComponets/NewAndFeatured.vue';
 import Men from './NavComponets/Men.vue';
 import Women from './NavComponets/Women.vue';
 import Kids from './NavComponets/Kids.vue';
+import Hamburger from './NavComponets/Hamburger.vue';
 const activeDropdown = ref(null);
 
 const showDropdown = (menu) => {
@@ -20,9 +21,18 @@ const hideDropdown = () => {
         }
     }, 50);
 };
+
+const showHam = ref(false)
+
+const toggleHam = () => {
+    showHam.value = !showHam.value
+}
 </script>
 
 <template>
+    <div class="block hamNav" :class="showHam ? 'block' : 'hidden'">
+        <Hamburger />
+    </div>
     <div class="w-full">
         <div class="bg-[#f5f5f5] w-full hidden navbar-shadow">
             <div class="max-w-[1920px] px-8 mx-auto flex items-center justify-between h-[36px]">
@@ -61,7 +71,7 @@ const hideDropdown = () => {
         </div>
 
         <nav class="bg-white shadow-md w-full"> <!-- Remove shadow-->
-            <div class="container max-w-[1920px] px-10 mx-auto h-[60px] flex">
+            <div class="container max-w-[1920px] px-6 mx-auto h-[60px] flex logo">
                 <a href="" class="cursor-pointer"><svg class="" xmlns="http://www.w3.org/2000/svg" width="59"
                         height="59" viewBox="135.5 361.38 1000 356.39">
                         <path
@@ -93,8 +103,8 @@ const hideDropdown = () => {
                             class="bg-[#F5F5F5] hidden lg:block group-hover:bg-[#E5E5E5] rounded-r-full w-[130px]"
                             placeholder="Search">
                     </div>
-                    <a href="" class="hover:bg-[#CACACB] rounded-full p-1 hidden love"><svg aria-hidden="true" focusable="false"
-                            viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none">
+                    <a href="" class="hover:bg-[#CACACB] rounded-full p-1 hidden love"><svg aria-hidden="true"
+                            focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none">
                             <path stroke="currentColor" stroke-width="1.5"
                                 d="M16.794 3.75c1.324 0 2.568.516 3.504 1.451a4.96 4.96 0 010 7.008L12 20.508l-8.299-8.299a4.96 4.96 0 010-7.007A4.923 4.923 0 017.205 3.75c1.324 0 2.568.516 3.504 1.451l.76.76.531.531.53-.531.76-.76a4.926 4.926 0 013.504-1.451">
                             </path>
@@ -113,12 +123,14 @@ const hideDropdown = () => {
                                 d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5">
                             </path>
                         </svg></a>
-                    <button class="ham block">
+
+                    <button class="ham block hover:bg-[#CACACB] rounded-full p-1" @click="toggleHam"> 
                         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
                             height="24px" fill="none">
                             <path stroke="currentColor" stroke-width="1.5" d="M21 5.25H3M21 12H3m18 6.75H3"></path>
                         </svg>
                     </button>
+
                 </div>
             </div>
         </nav>
@@ -145,9 +157,6 @@ const hideDropdown = () => {
         </div>
     </div>
 
-    <div>
-
-    </div>
 </template>
 
 <style scoped>
@@ -186,8 +195,17 @@ const hideDropdown = () => {
     .love {
         display: block;
     }
+
     .person {
         display: none;
+    }
+
+    .hamNav {
+        display: none;
+    }
+    .logo{
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
     }
 }
 </style>
