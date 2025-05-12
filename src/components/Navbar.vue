@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { provide, ref } from 'vue';
 import Help from './NavComponets/Help.vue';
 import NewAndFeatured from './NavComponets/NewAndFeatured.vue';
 import Men from './NavComponets/Men.vue';
@@ -27,6 +27,8 @@ const showHam = ref(false)
 const toggleHam = () => {
     showHam.value = !showHam.value
 }
+provide('showHam', showHam)
+provide('toggleHam', toggleHam)
 </script>
 
 <template>
