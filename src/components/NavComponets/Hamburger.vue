@@ -1,25 +1,275 @@
 <script setup>
-import { inject } from 'vue'
+import { inject, ref, computed } from 'vue'
 
 const showHam = inject('showHam')
 const toggleHam = inject('toggleHam')
+
+const currentLevel = ref('main') // grandparent, parent, child
+const currentGrandparent = ref(null)
+const currentParent = ref(null)
+
+const navigation = {
+    'New and Featured': {
+        subCategories: {
+            'Featured': {
+                children: [
+                    'Shop All New Arrivals',
+                    'Best Sellers',
+                    'SNKRS Launch Calendar',
+                    'Air Max Home',
+                    'Nike Gift Guide',
+                    'Summer Essentials'
+                ]
+            },
+            'Shop Icons': {
+                children: [
+                    'Air Force 1',
+                    'Air Jordan 1',
+                    'Air Max',
+                    'Dunk',
+                    'Blazer',
+                    'Pegasus',
+                    'Mercurial'
+                ]
+            },
+            'Jordan': {
+                children: [
+                    'Shop All Jordan',
+                    'New this Month',
+                    'Jordan Streetwear',
+                    'Jordan Basketball',
+                    'Jordan Golf',
+                    'Jordan x PSG'
+                ]
+            },
+            'Discover Sport': {
+                children: [
+                    'Football',
+                    'Running',
+                    'Basketball',
+                    'Training and Gym',
+                    'Golf',
+                    'Tennis',
+                    'Yoga',
+                    'Dance',
+                    'Skateboarding'
+                ]
+            }
+        }
+    },
+    'Men': {
+        subCategories: {
+            'Featured': {
+                children: [
+                    'New Releases',
+                    'Best Sellers',
+                    'Retro Running Sneakers',
+                    'Air Max Home',
+                    'Summer Essentials'
+                ]
+            },
+            'Shoes': {
+                children: [
+                    'All Shoes',
+                    'Lifestyle',
+                    'Jordan',
+                    'Running',
+                    'Football',
+                    'Basketball',
+                    'Training and Gym',
+                    'Skateboarding',
+                    'Nike By You'
+                ]
+            },
+            'Clothing': {
+                children: [
+                    'All Clothing',
+                    'Hoodies and Sweatshirts',
+                    'Jackets',
+                    'Trousers and Tights',
+                    'Tracksuits',
+                    'Tops and T-Shirts',
+                    'Shorts',
+                    'Kits and Jerseys',
+                ]
+            },
+            'Discover Sport': {
+                children: [
+                    'Running',
+                    'Football',
+                    'Basketball',
+                    'Training and Gym',
+                    'Tennis',
+                    'Golf'
+                ]
+            },
+            'Accessories and Equipment': {
+                children: [
+                    'All Accessories and Equipment',
+                    'Bags and Backpacks',
+                    'Headwear',
+                    'Socks'
+                ]
+            }
+        }
+    },
+    'Women': {
+        subCategories: {
+            'Featured': {
+                children: [
+                    'New Releases',
+                    'Bestseller',
+                    'Nike Style By',
+                    'Air Max Home',
+                    "Mother's Day Gifts"
+                ]
+            },
+            'Shoes': {
+                children: [
+                    'All Shoes',
+                    'Lifestyle',
+                    'Jordan',
+                    'Running',
+                    'Training and Gym',
+                    'Football',
+                    'Nike By You'
+                ]
+            },
+            'Clothing': {
+                children: [
+                    'All Clothing',
+                    'Hoodies and Sweatshirts',
+                    'Jackets',
+                    'Trousers',
+                    'Leggings',
+                    'Matching Sets',
+                    'Tops and T-Shirts',
+                    'Shorts',
+                    'Sports Bras'
+                ]
+            },
+            'Discover Sport': {
+                children: [
+                    'Training & Gym',
+                    'Running',
+                    'Football',
+                    'Basketball',
+                    'Tennis',
+                    'Dance',
+                    'Yoga',
+                    'Golf',
+                ]
+            },
+            'Accessories and Equipment': {
+                children: [
+                    'All Accessories and Equipment',
+                    'Bags and Backpacks',
+                    'Headwear',
+                    'Socks'
+                ]
+            }
+        }
+    },
+    'Kids': {
+        subCategories: {
+            'Featured': {
+                children: [
+                    'New Releases',
+                    'Best Sellers',
+                    'Teens',
+                    'EasyOn',
+                    'Cold Weather',
+                ]
+            },
+            'Shoes': {
+                children: [
+                    'All Shoes',
+                    'Lifestyle',
+                    'Jordan',
+                    'Football',
+                    'Running',
+                    'Basketball'
+                ]
+            },
+            'Clothing': {
+                children: [
+                    'All Clothing',
+                    'Hoodies and Sweatshirts',
+                    'Jackets',
+                    'Trousers and Leggings',
+                    'Tracksuits',
+                    'Matching Sets',
+                    'Tops and T-Shirts',
+                    'Shorts',
+                    'Kits and Jerseys'
+                ]
+            },
+            'Kids by age': {
+                children: [
+                    'Older Kids (7 - 15 years)',
+                    'Younger Kids (3 - 7 years)',
+                    'Baby & Toddler (0 - 3 years)',
+                ]
+            },
+            'Accessories and Equipment': {
+                children: [
+                    'All Accessories and Equipment',
+                    'Bags and Backpacks',
+                    'Headwear',
+                    'Socks',
+                ]
+            }
+        }
+    }
+}
+
+
+function navigateToParent(grandparentKey) {
+    currentGrandparent.value = grandparentKey
+    currentLevel.value = 'parent'
+}
+
+function navigateToChild(parentKey) {
+    currentParent.value = parentKey
+    currentLevel.value = 'child'
+}
+
+function goBack() {
+    if (currentLevel.value === 'child') {
+        currentLevel.value = 'parent'
+    } else if (currentLevel.value === 'parent') {
+        currentLevel.value = 'main'
+        currentGrandparent.value = null
+    }
+}
+
+const showBackButton = computed(() => {
+  return currentLevel.value !== 'main'
+})
+
+const backButtonText = computed(() => {
+  if (currentLevel.value === 'parent') return 'All'
+  if (currentLevel.value === 'child') return currentParent.value
+  return 'All'
+})
 
 </script>
 <template>
     <div v-if="showHam">
         <div class="fixed bg-black w-full h-full opacity-40 z-90"></div>
         <div class="absolute top-0 right-0 w-[320px] h-full bg-white z-100 overflow-y-scroll">
+            <!-- BACK-->
             <div class="flex p-5">
                 <div class="w-full flex justify-between ">
-                    <div class="flex items-center"> <!-- BACK-->
-                        <button type="button">
+                    <div class="flex items-center">
+                        <button type="button" @click="goBack" v-if="showBackButton">
                             <svg aria-hidden="true" class="slide_out__previous_caret" focusable="false"
                                 viewBox="0 0 24 24" role="img" width="24px" height="24px" fill="none">
                                 <path stroke="currentColor" stroke-width="1.5" d="M15.525 18.966L8.558 12l6.967-6.967">
                                 </path>
                             </svg>
                         </button>
-                        <span class="ml-2 font-medium">All</span>
+                        <span class="ml-2 font-medium" v-if="showBackButton">{{ backButtonText }}</span>
                     </div>
                     <button type="button" @click="toggleHam">
                         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
@@ -30,41 +280,12 @@ const toggleHam = inject('toggleHam')
                     </button>
                 </div>
             </div>
-            <div class="h-full flex flex-col pl-8 pr-6 py-4 justify-start items-start "><!-- HIDDEN-->
-                <ul class="w-full text-[24px] ">
-                    <li class="py-1">
-                        <div class="flex items-center justify-between">
-                            <button type="button">New and Featured</button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="py-1">
-                        <div class="flex items-center justify-between">
-                            <button type="button">Men</button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="py-1">
-                        <div class="flex items-center justify-between">
-                            <button type="button">Women</button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="py-1">
-                        <div class="flex items-center justify-between">
-                            <button type="button">Kids</button>
+            <!-- GrandParen -->
+            <div v-if="currentLevel === 'main'" class="h-full flex flex-col pl-8 pr-6 py-4 justify-start items-start ">
+                <ul class="w-full text-[24px]">
+                    <li v-for="(category, key) in navigation" :key="key" class="py-1">
+                        <div class="flex items-center justify-between" @click="navigateToParent(key)">
+                            <button type="button">{{ key }}</button>
                             <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
                                 height="24px" fill="none">
                                 <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
@@ -98,9 +319,9 @@ const toggleHam = inject('toggleHam')
                     </li>
                 </ul>
                 <ul class="w-full mt-16">
-                    <p class="mb-6 text-[20px]/[24px] w-[250px] text-[rgba(0,0,0,0.6)]">Become a Nike Member for the
+                    <p class="mb-6 text-[20px]/[24px] w-[200px] text-[#5c5c5c]">Become a Nike Member for the
                         best products, inspiration and stories in sport. <a href=""
-                            class="font-semibold text-[rgba(0,0,0,1)]">Learn more</a></p>
+                            class="font-semibold text-black">Learn more</a></p>
                     <div class="flex gap-2">
                         <li><button type="button" class="px-3 py-1 text-white font-medium bg-black rounded-2xl">Join
                                 Us</button></li>
@@ -127,7 +348,8 @@ const toggleHam = inject('toggleHam')
                                 <path stroke="currentColor" stroke-width="1.5"
                                     d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5">
                                 </path>
-                            </svg> Bag</a>
+                            </svg> 
+                            Bag</a>
                     </li>
                     <li class="mb-4">
                         <a href="" class="flex">
@@ -137,7 +359,7 @@ const toggleHam = inject('toggleHam')
                                     d="M12 13.5v-7c0-1.74 1.01-2.75 2.25-2.75h4.39l1.61 6m0 0H3.75m16.5 0v10.5H3.75V9.75m0 0l1.61-6h5.14">
                                 </path>
                             </svg>
-                            Order</a>
+                            Orders</a>
                     </li>
                     <li class="mb-4">
                         <a href="" class="flex">
@@ -151,167 +373,37 @@ const toggleHam = inject('toggleHam')
                     </li>
                 </ul>
             </div>
-            <div class="h-full flex flex-col pl-8 pr-6 py-4 justify-start items-start hidden"><!-- New And Featured -->
-                <ul class="w-full text-[24px] ">
+            <!-- Parent -->
+            <div v-else-if="currentLevel === 'parent'"
+                class="h-full flex flex-col pl-8 pr-6 py-4 justify-start items-start">
+                <ul class="w-full text-[24px]">
                     <li class="mb-4">
                         <div class="flex items-center justify-between">
-                            <span class="font-semibold">New and Featured</span>
+                            <span class="font-semibold">{{ currentGrandparent }}</span>
                         </div>
                     </li>
-                    <li class="py-2 ">
-                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]">
-                            <button type="button">Featured</button>
+                    <li v-for="(_, key) in navigation[currentGrandparent].subCategories" :key="key" class="py-2">
+                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]" @click="navigateToChild(key)">
+                            <button type="button">{{ key }}</button>
                             <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
                                 height="24px" fill="none">
                                 <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
                                 </path>
                             </svg>
-                        </div>
-                    </li>
-                    <li class="py-2">
-                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]">
-                            <button type="button">Shop Icons</button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="py-2">
-                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]">
-                            <button type="button">Jordan</button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="py-2">
-                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]">
-                            <button type="button">Discover Sport</button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="h-full flex flex-col pl-8 pr-6 py-4 justify-start items-start hidden"><!-- Featured -->
-                <ul class="w-full text-[24px] ">
-                    <li>
-                        <span class="font-semibold mb-4 inline-block">Featured</span>
-                        <p><a href="">Shop All New Arrivals</a></p>
-                        <p><a href="">Best Sellers</a></p>
-                        <p><a href="">SNKRS Launch Calendar</a></p>
-                        <p><a href="">Air Max Home</a></p>
-                        <p><a href="">Nike Gift Guide</a></p>
-                        <p><a href="">Summer Essentials</a></p>
-                    </li>
-                </ul>
-            </div>
-            <div class="h-full flex flex-col pl-8 pr-6 py-4 justify-start items-start hidden"><!-- Shop Icons -->
-                <ul class="w-full text-[24px] ">
-                    <li>
-                        <span class="font-semibold mb-4 inline-block">Shop Icons</span>
-                        <p><a href="">Air Force 1</a></p>
-                        <p><a href="">Air Jordan 1</a></p>
-                        <p><a href="">Air Max</a></p>
-                        <p><a href="">Dunk</a></p>
-                        <p><a href="">Blazer</a></p>
-                        <p><a href="">Pegasus</a></p>
-                        <p><a href="">Mercurial</a></p>
-                    </li>
-                </ul>
-            </div>
-            <div class="h-full flex flex-col pl-8 pr-6 py-4 justify-start items-start hidden"><!-- Jordan -->
-                <ul class="w-full text-[24px] ">
-                    <li>
-                        <span class="font-semibold mb-4 inline-block">Jordan</span>
-                        <p><a href="">Shop All Jordan</a></p>
-                        <p><a href="">New this Month</a></p>
-                        <p><a href="">Jordan Streetwear</a></p>
-                        <p><a href="">Jordan Basketball</a></p>
-                        <p><a href="">Jordan Golf</a></p>
-                        <p><a href="">Jordan x PSG</a></p>
-                    </li>
-                </ul>
-            </div>
-            <div class="h-full flex flex-col pl-8 pr-6 py-4 justify-start items-start hidden"><!-- Discover Sport -->
-                <ul class="w-full text-[24px] ">
-                    <li>
-                        <span class="font-semibold mb-4 inline-block">Discover Sport</span>
-                        <p><a href="">Football</a></p>
-                        <p><a href="">Running</a></p>
-                        <p><a href="">Basketball</a></p>
-                        <p><a href="">Training and Gym</a></p>
-                        <p><a href="">Golf</a></p>
-                        <p><a href="">Tennis</a></p>
-                        <p><a href="">Yoga</a></p>
-                        <p><a href="">Dance</a></p>
-                        <p><a href="">Skateboarding</a></p>
-                    </li>
-                </ul>
-            </div>
 
-            <div class="h-full flex flex-col pl-8 pr-6 py-4 justify-start items-start hidden"><!-- Men -->
-                <ul class="w-full text-[24px] ">
-                    <li class="mb-4">
-                        <div class="flex items-center justify-between">
-                            <span class="font-semibold">Men</span>
                         </div>
                     </li>
-                    <li class="py-2 ">
-                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]">
-                            <button type="button">Featured</button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="py-2">
-                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]">
-                            <button type="button">Shoes</button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="py-2">
-                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]">
-                            <button type="button">Clothing</button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="py-2">
-                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]">
-                            <button type="button">Discover Sport</button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
-                        </div>
-                    </li>
-                    <li class="py-2">
-                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]">
-                            <button type="button" ><p>Accessories and Equipment</p></button>
-                            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
-                                height="24px" fill="none">
-                                <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033">
-                                </path>
-                            </svg>
+                </ul>
+            </div>
+            <!-- Child -->
+            <div v-else-if="currentLevel === 'child'"
+                class="h-full flex flex-col pl-8 pr-6 py-4 justify-start items-start">
+                <ul class="w-full text-[24px]">
+                    <li>
+                        <span class="font-semibold mb-4 inline-block">{{ currentParent }}</span>
+                        <div v-for="childItem in navigation[currentGrandparent].subCategories[currentParent].children"
+                            :key="childItem" class="py-2">
+                            <a href="" class="block text-[1rem] text-[rgba(0,0,0,0.6)]">{{ childItem }}</a>
                         </div>
                     </li>
                 </ul>
