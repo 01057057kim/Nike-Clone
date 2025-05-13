@@ -35,9 +35,9 @@ provide('toggleHam', toggleHam)
     <div class="block hamNav" :class="showHam ? 'block' : 'hidden'">
         <Hamburger />
     </div>
-    <div class="w-full">
+    <div class="w-full overflow-y-visible">
         <div class="bg-[#f5f5f5] w-full hidden navbar-shadow">
-            <div class="max-w-[1920px] px-8 mx-auto flex items-center justify-between h-[36px]">
+            <div class="max-w-[1920px] pl-8 pr-10 mx-auto flex items-center justify-between h-[36px]">
                 <div class="flex items-center gap-6 px-2">
                     <a href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                             viewBox="5.003 13.06 239.999 223.884">
@@ -51,8 +51,8 @@ provide('toggleHam', toggleHam)
                             <path d="M74.7 47L31.9 94h36.7l42.8-47L68.6 0H31.9z" />
                         </svg></a>
                 </div>
-                <ul class="flex items-center space-x-1 text-[0.7rem] font-semibold tracking-normal gap-2">
-                    <li class="hover:opacity-50"><a href="">Find a Store</a></li>
+                <ul class="flex items-center space-x-1 text-[12px]/[18px] tracking-normal gap-[0.5rem] font-medium">
+                    <li class="hover:opacity-50 "><a href="">Find a Store</a></li>
                     <li>|</li>
                     <div>
                         <li class="hover:opacity-50 " @mouseenter="showDropdown('help')" @mouseleave="hideDropdown">Help
@@ -67,7 +67,10 @@ provide('toggleHam', toggleHam)
                     <li>|</li>
                     <li class="hover:opacity-50"><a href="">Join Us</a></li>
                     <li>|</li>
-                    <li class="hover:opacity-50"><a href="">Sign In</a></li>
+                    <li>
+                        <router-link to="/signin" class="hover:opacity-50 cursor-pointer">Sign In</router-link>
+                    </li>
+
                 </ul>
             </div>
         </div>
@@ -79,8 +82,10 @@ provide('toggleHam', toggleHam)
                         <path
                             d="M245.8075 717.62406c-29.79588-1.1837-54.1734-9.3368-73.23459-24.4796-3.63775-2.8928-12.30611-11.5663-15.21427-15.2245-7.72958-9.7193-12.98467-19.1785-16.48977-29.6734-10.7857-32.3061-5.23469-74.6989 15.87753-121.2243 18.0765-39.8316 45.96932-79.3366 94.63252-134.0508 7.16836-8.0511 28.51526-31.5969 28.65302-31.5969.051 0-1.11225 2.0153-2.57652 4.4694-12.65304 21.1938-23.47957 46.158-29.37751 67.7703-9.47448 34.6785-8.33163 64.4387 3.34693 87.5151 8.05611 15.898 21.86731 29.6684 37.3979 37.2806 27.18874 13.3214 66.9948 14.4235 115.60699 3.2245 3.34694-.7755 169.19363-44.801 368.55048-97.8366 199.35686-53.0408 362.49439-96.4029 362.51989-96.3672.056.046-463.16259 198.2599-703.62654 301.0914-38.08158 16.2806-48.26521 20.3928-66.16827 26.6785-45.76525 16.0714-86.76008 23.7398-119.89779 22.4235z" />
                     </svg></a>
+                <!-- <div class="block"> CHECKPOINT -->
                 <div class="flex-1 flex justify-center items-center translate-x-5 lg:translate-x-20 z-[5]">
-                    <ul class=" items-center justify-center gap-4 text-[1rem] font-medium tracking-normal hidden">
+                    <ul
+                        class=" items-center justify-center gap-5 text-[16px]/[28px] tracking-normal hidden font-medium">
                         <li class="nav-item" @mouseenter="showDropdown('newAndFeatured')" @mouseleave="hideDropdown">
                             New and Featured</li>
                         <li class="nav-item" @mouseenter="showDropdown('men')" @mouseleave="hideDropdown">Men</li>
@@ -126,14 +131,14 @@ provide('toggleHam', toggleHam)
                             </path>
                         </svg></a>
 
-                    <button class="ham block hover:bg-[#CACACB] rounded-full p-1" @click="toggleHam"> 
+                    <button class="ham block hover:bg-[#CACACB] rounded-full p-1" @click="toggleHam">
                         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
                             height="24px" fill="none">
                             <path stroke="currentColor" stroke-width="1.5" d="M21 5.25H3M21 12H3m18 6.75H3"></path>
                         </svg>
                     </button>
-
                 </div>
+                <!--</div>-->
             </div>
         </nav>
     </div>
@@ -205,7 +210,8 @@ provide('toggleHam', toggleHam)
     .hamNav {
         display: none;
     }
-    .logo{
+
+    .logo {
         padding-left: 2.5rem;
         padding-right: 2.5rem;
     }

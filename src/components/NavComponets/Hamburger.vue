@@ -244,13 +244,13 @@ function goBack() {
 }
 
 const showBackButton = computed(() => {
-  return currentLevel.value !== 'main'
+    return currentLevel.value !== 'main'
 })
 
 const backButtonText = computed(() => {
-  if (currentLevel.value === 'parent') return 'All'
-  if (currentLevel.value === 'child') return currentParent.value
-  return 'All'
+    if (currentLevel.value === 'parent') return 'All'
+    if (currentLevel.value === 'child') return currentParent.value
+    return 'All'
 })
 
 </script>
@@ -319,15 +319,19 @@ const backButtonText = computed(() => {
                     </li>
                 </ul>
                 <ul class="w-full mt-16">
-                    <p class="mb-6 text-[20px]/[24px] w-[200px] text-[#5c5c5c]">Become a Nike Member for the
-                        best products, inspiration and stories in sport. <a href=""
-                            class="font-semibold text-black">Learn more</a></p>
+
+                    <p class="mb-8 text-[20px]/[24px] w-[230px]">Become a Nike Member for the
+                        best products, inspiration and stories in sport. <a href="">Learn more</a> </p>
                     <div class="flex gap-2">
-                        <li><button type="button" class="px-3 py-1 text-white font-medium bg-black rounded-2xl">Join
-                                Us</button></li>
-                        <li><button type="button"
-                                class="px-3 py-1 text-black font-medium bg-white rounded-2xl border-[rgba(0,0,0,0.2)] border-1 ">Sign
-                                In</button></li>
+                        <li><router-link to="/signin" class="px-4 py-2 text-white font-medium bg-black rounded-2xl">Join
+                                Us</router-link></li>
+                        <li>
+                            <router-link to="/signin"
+                                class="px-4 py-2 text-black font-medium bg-white rounded-2xl border border-[rgba(0,0,0,0.2)]">
+                                Sign In
+                            </router-link>
+                        </li>
+
                     </div>
                 </ul>
                 <ul class="w-full mt-16 pb-[120px] translate-x-[-6px]">
@@ -348,7 +352,7 @@ const backButtonText = computed(() => {
                                 <path stroke="currentColor" stroke-width="1.5"
                                     d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 110 4.5H3.75v8.25a3.75 3.75 0 003.75 3.75h9a3.75 3.75 0 003.75-3.75V8.25H17.5">
                                 </path>
-                            </svg> 
+                            </svg>
                             Bag</a>
                     </li>
                     <li class="mb-4">
@@ -379,11 +383,12 @@ const backButtonText = computed(() => {
                 <ul class="w-full text-[24px]">
                     <li class="mb-4">
                         <div class="flex items-center justify-between">
-                            <span class="font-semibold">{{ currentGrandparent }}</span>
+                            <span>{{ currentGrandparent }}</span>
                         </div>
                     </li>
                     <li v-for="(_, key) in navigation[currentGrandparent].subCategories" :key="key" class="py-2">
-                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]" @click="navigateToChild(key)">
+                        <div class="flex items-center justify-between text-[1rem] text-[rgba(0,0,0,0.6)]"
+                            @click="navigateToChild(key)">
                             <button type="button">{{ key }}</button>
                             <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px"
                                 height="24px" fill="none">
@@ -420,11 +425,14 @@ const backButtonText = computed(() => {
 }
 
 p {
+    color: rgba(0, 0, 0, 0.6);
     font-size: 1rem;
-    color: #000;
-    opacity: 60%;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 0;
     font-weight: 500;
+}
+
+p a {
+    color: rgba(0, 0, 0, 1);
+    font-weight: 600;
 }
 </style>
