@@ -4,10 +4,10 @@ import Hero from '@/components/Hero.vue'
 </script>
 
 <template>
-  <header>
-    <Navbar />
-  </header>
-  <main>
-    <Hero />
-  </main>
+    <header>
+        <Navbar />
+    </header>
+    <main>
+        <Hero />
+    </main>
 </template>
