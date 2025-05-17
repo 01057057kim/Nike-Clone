@@ -66,8 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div :class="['flex flex-col w-full h-[550px] max-w-[1920px] mx-auto ', isAtEnd ? 'pr-4 md:pr-10' : 'pl-4 md:pl-10']">
-        <div class="flex items-center justify-between w-full mb-4 pr-4 md:pr-10">
+    <div class="flex items-center justify-between w-full mb-4 px-4 md:px-10">
             <h1 class="text-2xl tracking-tighter ml-10">Shop Our Icons</h1>
             <div class="flex gap-2">
                 <button type="button" class="p-3 rounded-full h-full bg-[#E5E5E5] hover:bg-[#CACACB] transition-opacity"
@@ -84,6 +83,7 @@ onMounted(() => {
                     </svg></button>
             </div>
         </div>
+    <div :class="['flex flex-col w-full h-[550px] max-w-[1920px] mx-auto ', isAtEnd ? 'pr-4 md:pr-10' : 'pl-4 md:pl-10']">
         <div class="scroll-container group">
             <div ref="scrollContainer" class="flex overflow-x-auto snap-x overflow-y-hidden custom-scrollbar pl-2">
                 <div class="flex flex-nowrap">
