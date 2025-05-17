@@ -47,11 +47,11 @@ function handleClick() {
 </script>
 
 <template>
-  <div class="container w-full max-w-[1920px] mx-auto">
-    <div ref="scrollContainer" class="scroll-wrapper" @mousedown="startDrag" @mousemove="onDrag" @mouseup="stopDrag"
+  <div class="container w-full max-w-[2050px] mx-auto">
+    <div ref="scrollContainer" class="scroll-wrapper " @mousedown="startDrag" @mousemove="onDrag" @mouseup="stopDrag"
       @mouseleave="stopDrag">
       <div v-for="(image, index) in images" :key="index" class="image-block">
-        <img :src="image.src" :alt="image.alt" class="w-full h-full object-cover" loading="lazy"/>
+        <img :src="image.src" :alt="image.alt" class="w-full h-full " loading="lazy"/>
         <ShopTheLook label="Shop the Look" @click="handleClick()" />
       </div>
     </div>
@@ -85,12 +85,12 @@ function handleClick() {
     justify-content: center;
     cursor: default;
     flex-wrap: nowrap;
-    gap: 2rem;
+    gap: 0.5rem;
   }
 
   .image-block {
     flex: 0 0 auto;
-    max-width: 30%;
+    max-width: 31.8%;
     min-width: 30%;
   }
 }

@@ -5,7 +5,7 @@
             <span class="text-[1.3rem]"> {{ description }}</span>
         </div>
         <button
-            class="bg-white text-black px-2 text-sm sm:text-base rounded-2xl cursor-pointer hover:bg-[rgba(228,228,228,0.8)] translate-y-[-45px] translate-x-[40px] w-[70px] h-[36px]"
+            class="bg-white text-black px-4 text-sm sm:text-base rounded-2xl cursor-pointer hover:bg-[rgba(228,228,228,0.8)] translate-y-[-45px] translate-x-[40px] w-auto h-[36px]"
             @click="onClick">
             <div class="flex items-center justify-center gap-1">
 
@@ -25,11 +25,9 @@ defineProps({
     },
     headline: {
         type: String,
-        default: 'Nike 24.7 Collection'
     },
     description: {
         type: String,
-        default: 'Impossibly Soft'
     },
     onClick: Function
 })

@@ -217,5 +217,5 @@ provide('toggleHam', toggleHam)
     }
 }
 </style>
-
+<!-- TODO: Search Bar -->
 <!-- TODO: Update nav appear when scroll up-->

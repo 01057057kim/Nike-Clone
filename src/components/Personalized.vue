@@ -66,8 +66,8 @@ const images = [
 ]
 </script>
 <template>
-    <div class="image-container w-full max-w-[1920px] px-4 md:px-16 mx-auto">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
+    <div class="image-container w-full max-w-[1920px] px-4 md:px-10 mx-auto">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4 ">
             <div v-for="(image, index) in images" :key="index">
                 <img :src="image.src" :alt="image.alt" class="w-full aspect-square object-cover mb-[-100px]" loading="lazy"/>
                 <ShopButton :headline="image.headline" :description="image.description" />
