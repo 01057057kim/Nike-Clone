@@ -1,6 +1,6 @@
 <template>
   <button
-    class="bg-white text-black px-2 text-sm sm:text-base rounded-2xl cursor-pointer hover:bg-[rgba(228,228,228,0.8)] translate-y-[-75px] translate-x-[40px] w-[160px] h-[36px]"
+    class="bg-white text-black px-2 text-sm sm:text-base rounded-2xl cursor-pointer hover:bg-[rgba(228,228,228,0.8)] translate-y-[-75px] translate-x-[25px] sm:translate-x-[40px] w-[160px] h-[36px]"
     @click="onClick"
   >
     <div class="flex items-center justify-center gap-1">

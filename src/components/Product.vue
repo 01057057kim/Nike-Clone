@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import ShopButton from './Button/ShopButton.vue';
 
 const scrollContainer = ref(null)
@@ -67,27 +67,28 @@ onMounted(() => {
 
 <template>
     <div class="flex items-center justify-between w-full mb-4 px-4 md:px-10">
-            <h1 class="text-2xl tracking-tighter ml-10">Shop Our Icons</h1>
-            <div class="flex gap-2">
-                <button type="button" class="p-3 rounded-full h-full bg-[#E5E5E5] hover:bg-[#CACACB] transition-opacity"
-                    @click="scrollLeft" :class="{ 'opacity-20 hover:bg-[#E5E5E5]': isAtStart }">
-                    <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px"
-                        fill="none">
-                        <path stroke="currentColor" stroke-width="1.5" d="M15.525 18.966L8.558 12l6.967-6.967"></path>
-                    </svg></button>
-                <button type="button" class="p-3 rounded-full h-full bg-[#E5E5E5] hover:bg-[#CACACB] transition-opacity"
-                    @click="scrollRight" :class="{ 'opacity-20 hover:bg-[#E5E5E5]': isAtEnd }">
-                    <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px"
-                        fill="none">
-                        <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033"></path>
-                    </svg></button>
-            </div>
+        <h1 class="text-2xl tracking-tighter ml-4 sm:ml-10">Shop Our Icons</h1>
+        <div class="gap-2 hidden sm:flex">
+            <button type="button" class="p-3 rounded-full h-full bg-[#E5E5E5] hover:bg-[#CACACB] transition-opacity"
+                @click="scrollLeft" :class="{ 'opacity-20 hover:bg-[#E5E5E5]': isAtStart }">
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px"
+                    fill="none">
+                    <path stroke="currentColor" stroke-width="1.5" d="M15.525 18.966L8.558 12l6.967-6.967"></path>
+                </svg></button>
+            <button type="button" class="p-3 rounded-full h-full bg-[#E5E5E5] hover:bg-[#CACACB] transition-opacity"
+                @click="scrollRight" :class="{ 'opacity-20 hover:bg-[#E5E5E5]': isAtEnd }">
+                <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" role="img" width="24px" height="24px"
+                    fill="none">
+                    <path stroke="currentColor" stroke-width="1.5" d="M8.474 18.966L15.44 12 8.474 5.033"></path>
+                </svg></button>
         </div>
-    <div :class="['flex flex-col w-full h-[550px] max-w-[1920px] mx-auto ', isAtEnd ? 'pr-4 md:pr-10' : 'pl-4 md:pl-10']">
+    </div>
+    <div
+        :class="['flex flex-col w-full max-w-[1920px] mx-auto mb-8 ', isAtEnd ? 'pr-4 md:pr-10' : 'pl-4 md:pl-10']">
         <div class="scroll-container group">
             <div ref="scrollContainer" class="flex overflow-x-auto snap-x overflow-y-hidden custom-scrollbar pl-2">
                 <div class="flex flex-nowrap">
-                    <div class="flex-none min-w-[30%] snap-start pr-2" v-for="(image, index) in images" :key="index">
+                    <div class="flex-none min-w-[30%] snap-start pr-2 image-block" v-for="(image, index) in images" :key="index">
                         <img :src="image.src" :alt="image.alt" class="w-full object-cover" loading="lazy" />
                         <div class="translate-y-[-30px]">
                             <ShopButton :label="image.alt" />
@@ -101,6 +102,21 @@ onMounted(() => {
 
 
 <style scoped>
+.image-block {
+  flex: 0 0 auto;
+  min-width: 30%;
+  max-width: 38%;
+  max-height: 100%;
+}
+
+@media (min-width: 960px) {
+  .image-block {
+    flex: 0 0 auto;
+    max-width: 38%;
+    min-width: 30%;
+  }
+}
+
 .snap-x {
     scroll-snap-type: x mandatory;
 }
