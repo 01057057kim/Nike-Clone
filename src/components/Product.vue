@@ -66,7 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex items-center justify-between w-full mb-4 px-4 md:px-10">
+    <div class="flex items-center justify-between w-full mb-4 px-4 md:px-10 max-w-[1920px] mx-auto">
         <h1 class="text-2xl tracking-tighter ml-4 sm:ml-10">Shop Our Icons</h1>
         <div class="gap-2 hidden sm:flex">
             <button type="button" class="p-3 rounded-full h-full bg-[#E5E5E5] hover:bg-[#CACACB] transition-opacity"

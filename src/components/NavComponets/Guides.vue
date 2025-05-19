@@ -1,8 +1,8 @@
 <script setup></script>
 <template>
     <div class="relative">
-        <div class="absolute bg-white rounded-xl w-[200px] h-[185px] py-1 shadow-md">
-            <div class="flex justify-start items-center">
+        <div class="absolute bg-white rounded-xl w-[200px] h-[205px] shadow-xl">
+            <div class="flex justify-center items-center ">
                 <ul class="flex w-full">
                     <li> 
                         <div>
@@ -48,6 +48,8 @@ p {
     margin-bottom: 5px;
     padding-left: 20px;
     cursor: pointer;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 p:hover {
     opacity: 100%;

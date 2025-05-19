@@ -1,8 +1,26 @@
 <script setup>
 import Guides from './NavComponets/Guides.vue';
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+
 
 const activeDropdown = ref(null);
+const isTablet = ref(window.innerWidth < 1200 && window.innerWidth >= 863);
+const isMobile = ref(window.innerWidth < 864);
+
+const handleResize = () => {
+    const width = window.innerWidth;
+    isMobile.value = width < 863;
+    isTablet.value = width >= 863 && width < 1200;
+};
+
+onMounted(() => {
+    window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('resize', handleResize);
+});
+
 
 const showDropdown = (menu) => {
     activeDropdown.value = menu;
@@ -17,87 +35,168 @@ const hideDropdown = () => {
         }
     }, 50);
 };
+
+const toggleDropdown = (menu) => {
+    activeDropdown.value = activeDropdown.value === menu ? null : menu;
+};
+
+const footerSections21 = ref([
+    {
+        title: "Shoes",
+        open: false,
+        items: ["Black Running Shoes", "White Running Shoes", "Nike P-6000", "Nike Initator", "V2K Run Trainers", "Nike Shox", "Nike Waffle Trainers", "Nike Cortez", "Nike Vomero", "Black Trainers", "Nike Motiva Shoes"]
+    },
+    {
+        title: "Clothing",
+        open: false,
+        items: ["Yoga Trousers", "Tech Fleece Joggers", "Tech Fleece"]
+    },
+    {
+        title: "Kids",
+        open: false,
+        items: ["Girls' Black Shoes", "Kids' Black Shoes"]
+    },
+    {
+        title: "Featured",
+        open: false,
+        items: ["Football Club Teams", "Football", "Nike England", "Nike Run Club", "Nike Training Club", "Gift Ideas"]
+    }
+]);
+
+const toggleCategory = (index) => {
+    footerSections21.value[index].open = !footerSections21.value[index].open;
+};
+
+const footerSections21Expanded = ref(false);
+const togglefooterSections21Expanded = () => {
+  footerSections21Expanded.value = !footerSections21Expanded.value;
+};
+
+
+const footerSections2 = ref([
+    {
+        title: "Resources",
+        items: [
+            "Find a Store",
+            "Nike Journal",
+            "Become a Member",
+            "Feedback",
+            "Promo Codes"
+        ],
+        open: false
+    },
+    {
+        title: "Help",
+        items: [
+            "Get Help",
+            "Order Status",
+            "Shipping and Delivery",
+            "Returns",
+            "Payment Options",
+            "Contact Us",
+            "Reviews"
+        ],
+        open: false
+    },
+    {
+        title: "Company",
+        items: [
+            "About Nike",
+            "News",
+            "Careers",
+            "Investors",
+            "Sustainability",
+            "Purpose",
+            "Report a concern"
+        ],
+        open: false
+    }
+]);
+
+const toggleSection = (index) => {
+    footerSections2.value[index].open = !footerSections2.value[index].open;
+};
 </script>
 
 <template>
-    <div class="relative">
-        <div
-            class="group relative overflow-hidden transition-all duration-500 ease-in-out h-[25vh] hover:h-auto bg-white">
-            <div class="flex justify-center items-start h-full px-4 md:px-10 transition-all duration-500">
-                <ul class="flex space-x-20">
-                    <li class="space-y-4">
-                        <span class="mb-8 inline-block text-[1rem] font-medium">Shoes</span>
-                        <p>Black Running Shoes</p>
-                        <p>White Running Shoes</p>
-                        <p>Nike P-6000</p>
-                        <p>Nike Initator</p>
-                        <p>V2K Run Trainers</p>
-                        <p>Nike Shox</p>
-                        <p>Nike Waffle Trainers</p>
-                        <p>Nike Cortez</p>
-                        <p>Nike Vomero</p>
-                        <p>Black Trainers</p>
-                        <p>Nike Motiva Shoes</p>
-                    </li>
-                    <li class="space-y-4">
-                        <span class="mb-8 inline-block text-[1rem] font-medium">Clothing</span>
-                        <p>Yoga Trousers</p>
-                        <p>Tech Fleece Joggers</p>
-                        <p>Tech Fleece</p>
-                    </li>
-                    <li class="space-y-4">
-                        <span class="mb-8 inline-block text-[1rem] font-medium">Kids</span>
-                        <p>Girls' Black Shoes</p>
-                        <p>Kids' Black Shoes</p>
-                    </li>
-                    <li class="space-y-4">
-                        <span class="mb-8 inline-block text-[1rem] font-medium">Featured</span>
-                        <p>Football Club Teams</p>
-                        <p>Football</p>
-                        <p>Nike England</p>
-                        <p>Nike Run Club</p>
-                        <p>Nike Training Club</p>
-                        <p>Gift Ideas</p>
+    <div class="relative max-w-[1920px] mx-auto">
+        <div class="group relative overflow-hidden bg-white mx-auto text-nowrap">
+            <div class="flex justify-center items-start h-full px-4 md:px-10">
+
+                <ul v-if="isMobile" class="w-full">
+                    <li v-for="(category, index) in footerSections21" :key="index" class="py-3">
+                        <div @click="toggleCategory(index)" class="flex justify-between items-center cursor-pointer">
+                            <span class="text-[1rem] font-medium">{{ category.title }}</span>
+                        </div>
+                        <Transition name="faq">
+                            <div v-show="category.open" class="mt-2 pl-4">
+                                <p v-for="(item, itemIndex) in category.items" :key="itemIndex" class="pb-2">
+                                    {{ item }}
+                                </p>
+                            </div>
+                        </Transition>
                     </li>
                 </ul>
+                <ul v-else-if="isTablet" :class="[
+                    'flex w-auto transition-all duration-300 cursor-pointer',
+                    footerSections21Expanded ? 'h-full' : 'h-[250px]'
+                ]" @click="togglefooterSections21Expanded">
+                    <li v-for="(category, index) in footerSections21" :key="index" class="space-y-4 mr-4 md:mr-6 lg:mr-20">
+                        <span class="mb-8 inline-block text-[1rem] font-medium">{{ category.title }}</span>
+                        <p v-for="(item, itemIndex) in category.items" :key="itemIndex"
+                            class="truncate block w-[100px] sm:w-[120px] md:w-full">
+                            {{ item }}
+                        </p>
+                    </li>
+                </ul>
+
+                <ul v-else class="flex h-[250px] hover:h-full w-auto transition-all duration-300">
+                    <li v-for="(category, index) in footerSections21" :key="index" class="space-y-4 mr-4 md:mr-6 lg:mr-20">
+                        <span class="mb-8 inline-block text-[1rem] font-medium">{{ category.title }}</span>
+                        <p v-for="(item, itemIndex) in category.items" :key="itemIndex"
+                            class="truncate block w-[100px] sm:w-[120px] md:w-full">
+                            {{ item }}
+                        </p>
+                    </li>
+                </ul>
+
             </div>
         </div>
-        <div class="bg-white w-full h-auto px-4 md:px-10 py-10 mt-10 footer-links z-10">
+
+        <div class="bg-white w-full h-auto px-4 md:px-10 py-6 md:py-10 mt-10 footer-links z-10 trans ">
             <hr class="mb-12 opacity-10">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div class="space-y-3 text-[14px]">
-                    <span class="mb-6 inline-block text-[1rem] font-medium">Resources</span>
-                    <p>Find a Store</p>
-                    <p>Nike Journal</p>
-                    <p>Become a Member</p>
-                    <p>Feedback</p>
-                    <p>Promo Codes</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+                <div v-for="(section, index) in footerSections2" :key="index"
+                    class="space-y-3 text-[14px] py-2 border-b-[#E5E5E5] border-b-1 md:border-0 md:border-white ">
+                    <div @click="isMobile && toggleSection(index)"
+                        class="flex justify-between items-center cursor-pointer">
+                        <span class="my-2 inline-block text-[1rem] font-medium">
+                            {{ section.title }}
+                        </span>
+                        <span v-if="isMobile">
+                            <svg v-if="section.open" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+                            </svg>
+                            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </span>
+                    </div>
+
+                    <Transition name="faq">
+                        <div v-show="!isMobile || section.open">
+                            <p v-for="(item, itemIndex) in section.items" :key="itemIndex" class="pb-4">
+                                {{ item }}
+                            </p>
+                        </div>
+                    </Transition>
                 </div>
 
-                <div class="space-y-3 text-[14px]">
-                    <span class="mb-6 inline-block text-[1rem] font-medium">Help</span>
-                    <p>Get Help</p>
-                    <p>Order Status</p>
-                    <p>Shipping and Delivery</p>
-                    <p>Returns</p>
-                    <p>Payment Options</p>
-                    <p>Contact Us</p>
-                    <p>Reviews</p>
-                </div>
-
-                <div class="space-y-3 text-[14px]">
-                    <span class="mb-6 inline-block text-[1rem] font-medium">Company</span>
-                    <p>About Nike</p>
-                    <p>News</p>
-                    <p>Careers</p>
-                    <p>Investors</p>
-                    <p>Sustainability</p>
-                    <p>Purpose</p>
-                    <p>Report a concern</p>
-                </div>
-
-                <div class="text-right md:text-right mt-2 md:mt-0 cursor-pointer">
-                    <div class="flex items-center justify-end gap-1 opacity-60">
+                <div class="text-left md:text-right mt-2 md:mt-0 cursor-pointer">
+                    <div
+                        class="flex items-center justify-start md:justify-end  border-b-[#cecece] border-b-1 md:border-0 md:border-white opacity-60 gap-1 pb-6 pt-2">
                         <svg aria-hidden="true" class="css-npy3on" focusable="false" viewBox="0 0 24 24" role="img"
                             width="16px" height="16px" fill="none">
                             <path stroke="currentColor" stroke-miterlimit="10" stroke-width="1.5"
@@ -108,21 +207,30 @@ const hideDropdown = () => {
                     </div>
                 </div>
             </div>
-            <div class="my-20 flex gap-6">
+
+            <div
+                class="my-10 md:my-20 flex flex-wrap items-start md:items-center gap-2 md:gap-6 flex-col md:flex-row text-nowrap">
                 <p>© 2025 Nike, Inc. All rights reserved</p>
-                <div  class="flex items-center">
-                        <p class="hover:opacity-50 " @mouseenter="showDropdown('guides')" @mouseleave="hideDropdown">Guides
-                        </p>
-                         <svg aria-hidden="true" class="summary-caret" focusable="false" viewBox="0 0 24 24" role="img"
+                <div class="flex items-center">
+                    <p class="hover:opacity-50 cursor-pointer" v-if="!isMobile" @mouseenter="showDropdown('guides')"
+                        @mouseleave="hideDropdown">
+                        Guides
+                    </p>
+                    <p class="hover:opacity-50 cursor-pointer" v-else @click="toggleDropdown('guides')">
+                        Guides
+                    </p>
+                    <svg aria-hidden="true" class="summary-caret" focusable="false" viewBox="0 0 24 24" role="img"
                         width="24px" height="24px" fill="none">
                         <path stroke="currentColor" stroke-width="1.5" d="M17.5 9.25l-5.5 5.5-5.5-5.5"></path>
                     </svg>
-                        <div v-if="activeDropdown === 'guides'" @mouseenter="showDropdown('guides')"
-                            @mouseleave="hideDropdown"
-                            class="dropdown-menu relative translate-y-[-170px] translate-x-[-80px] z-100">
-                            <Guides />
-                        </div>
+                    <div v-if="activeDropdown === 'guides'" @mouseenter="!isMobile && showDropdown('guides')"
+                        @mouseleave="!isMobile && hideDropdown()" :class="[
+                            'dropdown-menu z-100',
+                            isMobile ? ' translate-y-[-200px] translate-x-[-80px]' : ' translate-y-[-185px] translate-x-[-80px]'
+                        ]">
+                        <Guides />
                     </div>
+                </div>
                 <p>Terms of Use</p>
                 <p>Terms of Sale</p>
                 <p>Company Details</p>
@@ -160,5 +268,23 @@ p {
 p:hover {
     color: #000;
     opacity: 100%;
+}
+
+.faq-enter-active,
+.faq-leave-active {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.faq-enter-from,
+.faq-leave-to {
+    max-height: 0;
+    opacity: 0;
+}
+
+.faq-enter-to,
+.faq-leave-from {
+    max-height: 500px;
+    opacity: 1;
 }
 </style>
