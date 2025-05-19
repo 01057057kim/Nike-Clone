@@ -40,7 +40,7 @@ const toggleDropdown = (menu) => {
     activeDropdown.value = activeDropdown.value === menu ? null : menu;
 };
 
-const footerSections21 = ref([
+const footerSections1 = ref([
     {
         title: "Shoes",
         open: false,
@@ -64,12 +64,12 @@ const footerSections21 = ref([
 ]);
 
 const toggleCategory = (index) => {
-    footerSections21.value[index].open = !footerSections21.value[index].open;
+    footerSections1.value[index].open = !footerSections1.value[index].open;
 };
 
-const footerSections21Expanded = ref(false);
-const togglefooterSections21Expanded = () => {
-  footerSections21Expanded.value = !footerSections21Expanded.value;
+const footerSections1Expanded = ref(false);
+const togglefooterSections1Expanded = () => {
+  footerSections1Expanded.value = !footerSections1Expanded.value;
 };
 
 
@@ -113,7 +113,7 @@ const footerSections2 = ref([
     }
 ]);
 
-const toggleSection = (index) => {
+const footerSection2 = (index) => {
     footerSections2.value[index].open = !footerSections2.value[index].open;
 };
 </script>
@@ -124,7 +124,7 @@ const toggleSection = (index) => {
             <div class="flex justify-center items-start h-full px-4 md:px-10">
 
                 <ul v-if="isMobile" class="w-full">
-                    <li v-for="(category, index) in footerSections21" :key="index" class="py-3">
+                    <li v-for="(category, index) in footerSections1" :key="index" class="py-3">
                         <div @click="toggleCategory(index)" class="flex justify-between items-center cursor-pointer">
                             <span class="text-[1rem] font-medium">{{ category.title }}</span>
                         </div>
@@ -139,9 +139,9 @@ const toggleSection = (index) => {
                 </ul>
                 <ul v-else-if="isTablet" :class="[
                     'flex w-auto transition-all duration-300 cursor-pointer',
-                    footerSections21Expanded ? 'h-full' : 'h-[250px]'
-                ]" @click="togglefooterSections21Expanded">
-                    <li v-for="(category, index) in footerSections21" :key="index" class="space-y-4 mr-4 md:mr-6 lg:mr-20">
+                    footerSections1Expanded ? 'h-full' : 'h-[250px]'
+                ]" @click="togglefooterSections1Expanded">
+                    <li v-for="(category, index) in footerSections1" :key="index" class="space-y-4 mr-4 md:mr-6 lg:mr-20">
                         <span class="mb-8 inline-block text-[1rem] font-medium">{{ category.title }}</span>
                         <p v-for="(item, itemIndex) in category.items" :key="itemIndex"
                             class="truncate block w-[100px] sm:w-[120px] md:w-full">
@@ -151,7 +151,7 @@ const toggleSection = (index) => {
                 </ul>
 
                 <ul v-else class="flex h-[250px] hover:h-full w-auto transition-all duration-300">
-                    <li v-for="(category, index) in footerSections21" :key="index" class="space-y-4 mr-4 md:mr-6 lg:mr-20">
+                    <li v-for="(category, index) in footerSections1" :key="index" class="space-y-4 mr-4 md:mr-6 lg:mr-20">
                         <span class="mb-8 inline-block text-[1rem] font-medium">{{ category.title }}</span>
                         <p v-for="(item, itemIndex) in category.items" :key="itemIndex"
                             class="truncate block w-[100px] sm:w-[120px] md:w-full">
@@ -168,7 +168,7 @@ const toggleSection = (index) => {
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
                 <div v-for="(section, index) in footerSections2" :key="index"
                     class="space-y-3 text-[14px] py-2 border-b-[#E5E5E5] border-b-1 md:border-0 md:border-white ">
-                    <div @click="isMobile && toggleSection(index)"
+                    <div @click="isMobile && footerSection2(index)"
                         class="flex justify-between items-center cursor-pointer">
                         <span class="my-2 inline-block text-[1rem] font-medium">
                             {{ section.title }}
