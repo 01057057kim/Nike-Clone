@@ -1,9 +1,9 @@
 <script setup></script>
 
 <template>
-    <div class="bg-white w-full h-[380px]">
-        <div class="flex justify-center items-center h-full">
-            <ul class="flex space-x-20">
+    <div class="bg-white w-full h-auto">
+        <div class="flex justify-center items-start py-8 h-full ">
+            <ul class="flex space-x-4 md:space-x-8 lg:space-x-20">
                 <li><!-- Change To Router -->
                     <span class="font-semibold mb-2 inline-block">Featured</span>
                     <p><a href="">New Releases</a></p>
@@ -63,5 +63,11 @@ p {
 p:hover {
     color: #000;
     opacity: 100%;
+}
+
+@media (max-width: 960px) {
+    .bg-white{
+        display: none;
+    }
 }
 </style>

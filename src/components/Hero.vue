@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 
-const MAX_HEIGHT = 838; //3250px when zoom out 25%
-const MIN_HEIGHT = 230; 
+const MAX_HEIGHT = 890; //3250px when zoom out 25%
+const MIN_HEIGHT = 430; 
 const DESKTOP_WIDTH = 1920;
 const MOBILE_WIDTH = 375;
 const SPECIAL_CASE_WIDTH = 817;

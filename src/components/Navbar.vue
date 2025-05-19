@@ -1,42 +1,70 @@
 <script setup>
-import { provide, ref } from 'vue';
+import { provide, ref, onMounted, onBeforeUnmount } from 'vue';
 import Help from './NavComponets/Help.vue';
 import NewAndFeatured from './NavComponets/NewAndFeatured.vue';
 import Men from './NavComponets/Men.vue';
 import Women from './NavComponets/Women.vue';
 import Kids from './NavComponets/Kids.vue';
 import Hamburger from './NavComponets/Hamburger.vue';
+
 const activeDropdown = ref(null);
+const showHam = ref(false);
+const showNavbar = ref(true);
+const atTop = ref(true);
+
+let lastScrollY = window.scrollY;
 
 const showDropdown = (menu) => {
     activeDropdown.value = menu;
 };
 
 const hideDropdown = () => {
-
     setTimeout(() => {
         const isOverDropdown = document.querySelector('.dropdown-menu:hover');
         if (!isOverDropdown) {
             activeDropdown.value = null;
         }
-    }, 50);
+    }, 100);
 };
 
-const showHam = ref(false)
-
 const toggleHam = () => {
-    showHam.value = !showHam.value
-}
-provide('showHam', showHam)
-provide('toggleHam', toggleHam)
+    showHam.value = !showHam.value;
+};
+
+const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+
+    atTop.value = currentScrollY < 10;
+
+    if (currentScrollY < lastScrollY || currentScrollY < 10) {
+        showNavbar.value = true;
+    } else {
+        showNavbar.value = false;
+    }
+
+    lastScrollY = currentScrollY;
+};
+
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', handleScroll);
+});
+
+provide('showHam', showHam);
+provide('toggleHam', toggleHam);
 </script>
+
 
 <template>
     <div class="block hamNav" :class="showHam ? 'block' : 'hidden'">
         <Hamburger />
     </div>
     <div class="w-full overflow-y-visible">
-        <div class="bg-[#f5f5f5] w-full hidden navbar-shadow">
+        <div v-show="atTop" class="bg-[#f5f5f5] hidden w-full navbar-shadow">
             <div class="max-w-[1920px] pl-8 pr-10 mx-auto flex items-center justify-between h-[36px]">
                 <div class="flex items-center gap-6 px-2">
                     <a href=""><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -75,14 +103,16 @@ provide('toggleHam', toggleHam)
             </div>
         </div>
 
-        <nav class="bg-white shadow-md w-full"> <!-- Remove shadow-->
+        <nav v-show="showNavbar" :class="[
+            'bg-white shadow-md w-full transition-all duration-300 ease-in-out fixed top-0 z-[60] h-[60px]',
+            atTop ? 'navbar-reponsive mt-0 lg:mt-[36px] ' : 'mt-0'
+        ]">
             <div class="container max-w-[1920px] px-6 mx-auto h-[60px] flex logo">
                 <a href="" class="cursor-pointer"><svg class="" xmlns="http://www.w3.org/2000/svg" width="59"
                         height="59" viewBox="135.5 361.38 1000 356.39">
                         <path
                             d="M245.8075 717.62406c-29.79588-1.1837-54.1734-9.3368-73.23459-24.4796-3.63775-2.8928-12.30611-11.5663-15.21427-15.2245-7.72958-9.7193-12.98467-19.1785-16.48977-29.6734-10.7857-32.3061-5.23469-74.6989 15.87753-121.2243 18.0765-39.8316 45.96932-79.3366 94.63252-134.0508 7.16836-8.0511 28.51526-31.5969 28.65302-31.5969.051 0-1.11225 2.0153-2.57652 4.4694-12.65304 21.1938-23.47957 46.158-29.37751 67.7703-9.47448 34.6785-8.33163 64.4387 3.34693 87.5151 8.05611 15.898 21.86731 29.6684 37.3979 37.2806 27.18874 13.3214 66.9948 14.4235 115.60699 3.2245 3.34694-.7755 169.19363-44.801 368.55048-97.8366 199.35686-53.0408 362.49439-96.4029 362.51989-96.3672.056.046-463.16259 198.2599-703.62654 301.0914-38.08158 16.2806-48.26521 20.3928-66.16827 26.6785-45.76525 16.0714-86.76008 23.7398-119.89779 22.4235z" />
                     </svg></a>
-                <!-- <div class="block"> CHECKPOINT -->
                 <div class="flex-1 flex justify-center items-center translate-x-5 lg:translate-x-20 z-[5]">
                     <ul
                         class=" items-center justify-center gap-5 text-[16px]/[28px] tracking-normal hidden font-medium">
@@ -138,32 +168,31 @@ provide('toggleHam', toggleHam)
                         </svg>
                     </button>
                 </div>
-                <!--</div>-->
+            </div>
+
+            <div class="relative">
+                <div v-if="activeDropdown === 'newAndFeatured'" @mouseenter="showDropdown('newAndFeatured')"
+                    @mouseleave="hideDropdown" class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md ">
+                    <NewAndFeatured />
+                </div>
+
+                <div v-if="activeDropdown === 'men'" @mouseenter="showDropdown('men')" @mouseleave="hideDropdown"
+                    class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
+                    <Men />
+                </div>
+
+                <div v-if="activeDropdown === 'women'" @mouseenter="showDropdown('women')" @mouseleave="hideDropdown"
+                    class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
+                    <Women />
+                </div>
+
+                <div v-if="activeDropdown === 'kids'" @mouseenter="showDropdown('kids')" @mouseleave="hideDropdown"
+                    class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
+                    <Kids />
+                </div>
             </div>
         </nav>
     </div>
-    <div class="relative">
-        <div v-if="activeDropdown === 'newAndFeatured'" @mouseenter="showDropdown('newAndFeatured')"
-            @mouseleave="hideDropdown" class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
-            <NewAndFeatured />
-        </div>
-
-        <div v-if="activeDropdown === 'men'" @mouseenter="showDropdown('men')" @mouseleave="hideDropdown"
-            class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
-            <Men />
-        </div>
-
-        <div v-if="activeDropdown === 'women'" @mouseenter="showDropdown('women')" @mouseleave="hideDropdown"
-            class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
-            <Women />
-        </div>
-
-        <div v-if="activeDropdown === 'kids'" @mouseenter="showDropdown('kids')" @mouseleave="hideDropdown"
-            class="dropdown-menu absolute left-0 w-full bg-white z-50 shadow-md">
-            <Kids />
-        </div>
-    </div>
-
 </template>
 
 <style scoped>
@@ -215,7 +244,8 @@ provide('toggleHam', toggleHam)
         padding-left: 2.5rem;
         padding-right: 2.5rem;
     }
+    .navbar-reponsive{
+        margin-top: 36px;
+    }
 }
 </style>
-<!-- TODO: Search Bar -->
-<!-- TODO: Update nav appear when scroll up-->
