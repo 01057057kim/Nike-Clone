@@ -1,33 +1,39 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 
-const MAX_HEIGHT = 890; //3250px when zoom out 25%
-const MIN_HEIGHT = 430; 
+const MAX_HEIGHT = 890;
+const MIN_HEIGHT = 350;
 const DESKTOP_WIDTH = 1920;
 const MOBILE_WIDTH = 375;
-const SPECIAL_CASE_WIDTH = 817;
+const SPECIAL_CASE_WIDTH = 796;
 const SPECIAL_CASE_ADJUSTMENT = 280;
 
 const dynamicHeight = ref(MAX_HEIGHT);
 
 const calculateHeight = () => {
   const viewportWidth = window.innerWidth;
+  const zoomFactor = window.devicePixelRatio;
+  const logicalWidth = viewportWidth / zoomFactor;
+  const zoomLevel = window.devicePixelRatio;
+  const adjustedHeight = MAX_HEIGHT / zoomLevel;
 
-  if (viewportWidth >= DESKTOP_WIDTH) {
-    dynamicHeight.value = MAX_HEIGHT;
+  if (logicalWidth >= DESKTOP_WIDTH) {
+    dynamicHeight.value = Math.min(adjustedHeight, 3350);
     return;
   }
 
-  const ratio = (viewportWidth - MOBILE_WIDTH) / (DESKTOP_WIDTH - MOBILE_WIDTH);
+  const ratio = (logicalWidth - MOBILE_WIDTH) / (DESKTOP_WIDTH - MOBILE_WIDTH);
   const calculatedHeight = MIN_HEIGHT + ratio * (MAX_HEIGHT - MIN_HEIGHT);
   const responsiveHeight = Math.max(MIN_HEIGHT, Math.min(MAX_HEIGHT, calculatedHeight));
 
-  if (viewportWidth <= SPECIAL_CASE_WIDTH) {
+  if (logicalWidth <= SPECIAL_CASE_WIDTH) {
     dynamicHeight.value = responsiveHeight + SPECIAL_CASE_ADJUSTMENT;
+    
   } else {
     dynamicHeight.value = responsiveHeight;
   }
 };
+
 
 onMounted(() => {
   calculateHeight();
